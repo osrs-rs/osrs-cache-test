@@ -3,5 +3,9 @@ import java.nio.file.Path
 
 fun main(args : Array<String>) {
     println("Hello, World!")
-    val cache = Cache.open(Path.of("./some-cache/"))
+
+    val path = System.getProperty("user.dir")
+
+    println("Working Directory = $path")
+    val cache = Cache.open(Path.of("./cache/"))
 }

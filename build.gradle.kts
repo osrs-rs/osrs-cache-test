@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.openrs2:openrs2-cache:0.1.0-SNAPSHOT")
+    implementation("org.slf4j:slf4j-nop:1.7.32")
 }
 
 tasks.test {
