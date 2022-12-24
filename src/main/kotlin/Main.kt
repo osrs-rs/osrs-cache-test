@@ -8,5 +8,7 @@ fun main(args : Array<String>) {
     val cache = Cache.open(Path.of("./cache/"))
     val data = cache.read(2,10,1042)
 
+    println("Data len: " + data.capacity())
+
     //cache.write()
 }
