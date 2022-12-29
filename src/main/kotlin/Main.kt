@@ -2,6 +2,7 @@ import org.openrs2.cache.Cache
 import java.nio.file.Path
 
 fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "%02x".format(eachByte) }
+
 fun main(args : Array<String>) {
     val path = System.getProperty("user.dir")
     println("Working Directory = $path")
