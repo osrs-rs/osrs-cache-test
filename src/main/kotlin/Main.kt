@@ -8,7 +8,14 @@ fun main(args : Array<String>) {
     println("Working Directory = $path")
 
     val cache = Cache.open(Path.of("./cache/"))
-    val data = cache.read(2,10,1042)
+    // Party hat
+    //val data = cache.read(2,10,1042)
+
+    // Loading map data (GZIP compressed)
+    val data = cache.read(5,"m50_50",0)
+
+    // Loading location data (XTEA encrypted + GZIP compressed)
+    //val data = cache.read(5,"l50_50",0)
 
     val bytes = ByteArray(data.readableBytes())
     data.readBytes(bytes)
