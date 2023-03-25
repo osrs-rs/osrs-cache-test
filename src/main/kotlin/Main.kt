@@ -4,15 +4,21 @@ import java.nio.file.Path
 fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "%02x".format(eachByte) }
 
 fun main(args : Array<String>) {
-    val path = System.getProperty("user.dir")
-    println("Working Directory = $path")
+    //val path = System.getProperty("user.dir")
+    //println("Working Directory = $path")
+    val startTime = System.currentTimeMillis()
 
     val cache = Cache.open(Path.of("./cache/"))
     // Party hat
-    //val data = cache.read(2,10,1042)
+    val data = cache.read(2,10,1042)
+
+    val endTime = System.currentTimeMillis()
+
+    val elapsedTime = endTime - startTime
+    println("Elapsed time: $elapsedTime ms")
 
     // Loading map data (GZIP compressed)
-    val data = cache.read(5,"m50_50",0)
+    //val data = cache.read(5,"m50_50",0)
 
     // Loading location data (XTEA encrypted + GZIP compressed)
     //val data = cache.read(5,"l50_50",0)
