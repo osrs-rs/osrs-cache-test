@@ -8,9 +8,9 @@ fun main(args : Array<String>) {
     //println("Working Directory = $path")
     val startTime = System.currentTimeMillis()
 
-    val cache = Cache.open(Path.of("./cache/"))
+    val cache = Cache.open(Path.of("./cache2/"))
     // Party hat
-    val data = cache.read(2,10,1042)
+    val data = cache.read(254,0,0)
 
     val endTime = System.currentTimeMillis()
 
