@@ -15,7 +15,7 @@ fun main(args : Array<String>) {
     //println("Working Directory = $path")
     val startTime = System.currentTimeMillis()
 
-    val cache = Cache.open(Path.of("cache3"))
+    val cache = Cache.open(Path.of("data/newcache"))
     // Party hat
     //val data = cache.read(2,10,1042)
     val data = cache.read(10,"huffman",0)
@@ -47,6 +47,6 @@ private fun makeNewCache() {
     store.create(0)
     store.create(255)
     val cache = Cache.open(store)
-    cache.write(0, 10, 0, Unpooled.wrappedBuffer(byteArrayOf(1, 2, 3)))
+    cache.write(0, 0, 0, Unpooled.wrappedBuffer(byteArrayOf(0x4F, 0x70, 0x65, 0x6E, 0x52, 0x53, 0x32)))
     cache.close()
 }
