@@ -1,14 +1,21 @@
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
 import org.openrs2.cache.Cache
+import org.openrs2.cache.DiskStore
 import java.nio.file.Path
+import kotlin.io.path.Path
+import kotlin.io.path.createDirectories
 
 fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "%02x".format(eachByte) }
 
 fun main(args : Array<String>) {
+    makeNewCache()
+
     //val path = System.getProperty("user.dir")
     //println("Working Directory = $path")
     val startTime = System.currentTimeMillis()
 
-    val cache = Cache.open(Path.of("./cache"))
+    val cache = Cache.open(Path.of("cache3"))
     // Party hat
     //val data = cache.read(2,10,1042)
     val data = cache.read(10,"huffman",0)
@@ -31,4 +38,15 @@ fun main(args : Array<String>) {
     println("Data bytes: 0x" + bytes.toHex())
 
     //cache.write()
+}
+
+private fun makeNewCache() {
+    val path = Path.of("data", "newcache")
+    path.createDirectories()
+    val store = DiskStore.create(path)
+    store.create(0)
+    store.create(255)
+    val cache = Cache.open(store)
+    cache.write(0, 10, 0, Unpooled.wrappedBuffer(byteArrayOf(1, 2, 3)))
+    cache.close()
 }
