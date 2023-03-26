@@ -15,7 +15,7 @@ fun main(args : Array<String>) {
     //println("Working Directory = $path")
     val startTime = System.currentTimeMillis()
 
-    val cache = Cache.open(Path.of("data/newcache"))
+    val cache = Cache.open(Path.of("cachetest/cache-read"))
     // Party hat
     //val data = cache.read(2,10,1042)
     //val data = cache.read(10,"huffman",0)
@@ -42,7 +42,7 @@ fun main(args : Array<String>) {
 }
 
 private fun makeNewCache() {
-    val path = Path.of("data", "newcache")
+    val path = Path.of("cachetest", "cache-read")
     path.createDirectories()
     val store = DiskStore.create(path)
     store.create(0)
