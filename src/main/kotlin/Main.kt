@@ -69,6 +69,5 @@ private fun makeNewCacheBzip2() {
     // Compress with bzip2
     val store2 = DiskStore.open(path)
     store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
-    val cache2 = Cache.open(store2)
-    cache2.close()
+    store2.close()
 }
