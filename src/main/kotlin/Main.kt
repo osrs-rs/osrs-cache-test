@@ -62,6 +62,25 @@ private fun makeNewCacheBzip2() {
     store.create(0)
     store.create(255)
     val cache = Cache.open(store)
-    cache.write(0, 0, 0, Js5Compression.compress(Unpooled.wrappedBuffer("OpenRS2".toByteArray()), Js5CompressionType.BZIP2) )
+    cache.write(0, 0, 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()))
     cache.close()
+
+
+    val store2 = DiskStore.open(path)
+
+    val data = store2.read(0,0)
+    store2.write(0,0,data)
+
+    val data2 = store2.read(0,0)
+    store2.flush()
+
+    val bytes = ByteArray(data2.readableBytes())
+    data2.readBytes(bytes)
+
+    println("Data len: " + data2.capacity())
+    println("Data bytes: 0x" + bytes.toHex())
+
+
+    //store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
+    //store2.flush()
 }
