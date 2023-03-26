@@ -18,7 +18,8 @@ fun main(args : Array<String>) {
     val cache = Cache.open(Path.of("data/newcache"))
     // Party hat
     //val data = cache.read(2,10,1042)
-    val data = cache.read(10,"huffman",0)
+    //val data = cache.read(10,"huffman",0)
+    val data = cache.read(0,0,0)
 
     val endTime = System.currentTimeMillis()
 
