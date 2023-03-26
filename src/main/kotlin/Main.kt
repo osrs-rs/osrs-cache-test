@@ -2,6 +2,8 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.openrs2.cache.Cache
 import org.openrs2.cache.DiskStore
+import org.openrs2.cache.Js5Compression
+import org.openrs2.cache.Js5CompressionType
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
@@ -10,6 +12,7 @@ fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "
 
 fun main(args : Array<String>) {
     makeNewCache()
+    makeNewCacheBzip2()
 
     //val path = System.getProperty("user.dir")
     //println("Working Directory = $path")
@@ -49,5 +52,16 @@ private fun makeNewCache() {
     store.create(255)
     val cache = Cache.open(store)
     cache.write(0, 0, 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()))
+    cache.close()
+}
+
+private fun makeNewCacheBzip2() {
+    val path = Path.of("cachetest", "cache-read-bzip2")
+    path.createDirectories()
+    val store = DiskStore.create(path)
+    store.create(0)
+    store.create(255)
+    val cache = Cache.open(store)
+    cache.write(0, 0, 0, Js5Compression.compress(Unpooled.wrappedBuffer("OpenRS2".toByteArray()), Js5CompressionType.BZIP2) )
     cache.close()
 }
