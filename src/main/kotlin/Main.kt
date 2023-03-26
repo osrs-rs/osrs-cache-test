@@ -56,6 +56,7 @@ private fun makeNewCache() {
 }
 
 private fun makeNewCacheBzip2() {
+    // Create cache and write file
     val path = Path.of("cachetest", "cache-read-bzip2")
     path.createDirectories()
     val store = DiskStore.create(path)
@@ -65,22 +66,9 @@ private fun makeNewCacheBzip2() {
     cache.write(0, 0, 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()))
     cache.close()
 
-
+    // Compress with bzip2
     val store2 = DiskStore.open(path)
-
-    val data = store2.read(0,0)
-    store2.write(0,0,data)
-
-    val data2 = store2.read(0,0)
-    store2.flush()
-
-    val bytes = ByteArray(data2.readableBytes())
-    data2.readBytes(bytes)
-
-    println("Data len: " + data2.capacity())
-    println("Data bytes: 0x" + bytes.toHex())
-
-
-    //store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
-    //store2.flush()
+    store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
+    val cache2 = Cache.open(store2)
+    cache2.close()
 }
