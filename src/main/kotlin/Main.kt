@@ -48,6 +48,6 @@ private fun makeNewCache() {
     store.create(0)
     store.create(255)
     val cache = Cache.open(store)
-    cache.write(0, 0, 0, Unpooled.wrappedBuffer(byteArrayOf(0x4F, 0x70, 0x65, 0x6E, 0x52, 0x53, 0x32)))
+    cache.write(0, 0, 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()))
     cache.close()
 }
