@@ -4,6 +4,7 @@ import org.openrs2.cache.Cache
 import org.openrs2.cache.DiskStore
 import org.openrs2.cache.Js5Compression
 import org.openrs2.cache.Js5CompressionType
+import org.openrs2.crypto.XteaKey
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
@@ -11,8 +12,10 @@ import kotlin.io.path.createDirectories
 fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "%02x".format(eachByte) }
 
 fun main(args : Array<String>) {
-    makeNewCache()
-    makeNewCacheBzip2()
+    testCacheRead()
+    testCacheReadEncrypted()
+    testCacheReadNamedGroup()
+    testCacheReadNamedGroupEncrypted()
 
     //val path = System.getProperty("user.dir")
     //println("Working Directory = $path")
@@ -44,7 +47,7 @@ fun main(args : Array<String>) {
     //cache.write()
 }
 
-private fun makeNewCache() {
+private fun testCacheRead() {
     val path = Path.of("cachetest", "cache-read")
     path.createDirectories()
     val store = DiskStore.create(path)
@@ -55,7 +58,41 @@ private fun makeNewCache() {
     cache.close()
 }
 
-private fun makeNewCacheBzip2() {
+private val KEY = XteaKey.fromHex("00112233445566778899AABBCCDDEEFF")
+private fun testCacheReadEncrypted() {
+    val path = Path.of("cachetest", "cache-read-encrypted")
+    path.createDirectories()
+    val store = DiskStore.create(path)
+    store.create(0)
+    store.create(255)
+    val cache = Cache.open(store)
+    cache.write(0, 0, 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()), KEY)
+    cache.close()
+}
+
+private fun testCacheReadNamedGroup() {
+    val path = Path.of("cachetest", "cache-read-named-group")
+    path.createDirectories()
+    val store = DiskStore.create(path)
+    store.create(0)
+    store.create(255)
+    val cache = Cache.open(store)
+    cache.write(0, "OpenRS2", 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()))
+    cache.close()
+}
+
+private fun testCacheReadNamedGroupEncrypted() {
+    val path = Path.of("cachetest", "cache-read-named-group-encrypted")
+    path.createDirectories()
+    val store = DiskStore.create(path)
+    store.create(0)
+    store.create(255)
+    val cache = Cache.open(store)
+    cache.write(0, "OpenRS2", 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()),KEY)
+    cache.close()
+}
+
+/*private fun makeNewCacheBzip2() {
     // Create cache and write file
     val path = Path.of("cachetest", "cache-read-bzip2")
     path.createDirectories()
@@ -70,4 +107,4 @@ private fun makeNewCacheBzip2() {
     val store2 = DiskStore.open(path)
     store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
     store2.close()
-}
+}*/
