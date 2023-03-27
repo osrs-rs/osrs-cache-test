@@ -1,13 +1,8 @@
-import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
-import it.unimi.dsi.fastutil.ints.Int2ObjectAVLTreeMap
 import org.openrs2.cache.Cache
 import org.openrs2.cache.DiskStore
-import org.openrs2.cache.Js5Compression
-import org.openrs2.cache.Js5CompressionType
 import org.openrs2.crypto.XteaKey
 import java.nio.file.Path
-import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
 
 fun ByteArray.toHex(): String = joinToString(separator = ", 0x") { eachByte -> "%02x".format(eachByte) }
