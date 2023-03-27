@@ -1,5 +1,6 @@
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
+import it.unimi.dsi.fastutil.ints.Int2ObjectAVLTreeMap
 import org.openrs2.cache.Cache
 import org.openrs2.cache.DiskStore
 import org.openrs2.cache.Js5Compression
@@ -16,6 +17,8 @@ fun main(args : Array<String>) {
     testCacheReadEncrypted()
     testCacheReadNamedGroup()
     testCacheReadNamedGroupEncrypted()
+
+    bluePartyhatTest()
 
     //val path = System.getProperty("user.dir")
     //println("Working Directory = $path")
@@ -90,6 +93,18 @@ private fun testCacheReadNamedGroupEncrypted() {
     val cache = Cache.open(store)
     cache.write(0, "OpenRS2", 0, Unpooled.wrappedBuffer("OpenRS2".toByteArray()),KEY)
     cache.close()
+}
+
+private fun bluePartyhatTest() {
+    val cache = Cache.open(Path.of("cache"))
+    // Party hat
+    val data = cache.read(2,10,1042)
+
+    val bytes = ByteArray(data.readableBytes())
+    data.readBytes(bytes)
+
+    println("Data len: " + data.capacity())
+    println("Data bytes: 0x" + bytes.toHex())
 }
 
 /*private fun makeNewCacheBzip2() {
