@@ -1,6 +1,7 @@
 import io.netty.buffer.Unpooled
 import org.openrs2.cache.Cache
 import org.openrs2.cache.DiskStore
+import org.openrs2.cache.Store
 import org.openrs2.crypto.XteaKey
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
@@ -118,3 +119,12 @@ private fun bluePartyhatTest() {
     store2.write(0,0, Js5Compression.compress(store2.read(0,0), Js5CompressionType.BZIP2))
     store2.close()
 }*/
+
+private fun ktMovedStoreTest() {
+    // Create cache and write file
+    val path = Path.of("cache")
+    path.createDirectories()
+    val store = Store.open(path)
+    val cache = Cache.open(store)
+    println("Read from store after moved to Cache: " + store.read(2,10).capacity())
+}
